@@ -3,9 +3,6 @@ import re
 import time
 
 import requests
-from configobj import ConfigObj
-
-config = ConfigObj(os.getcwd() + "/config.conf")['Account']
 
 
 def _autosign(sess):
