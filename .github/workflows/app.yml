@@ -1,6 +1,7 @@
 name: 巴哈每日簽到
 
 on:
+  workflow_dispatch: ~
   schedule:
     # * is a special character in YAML so you have to quote this string
     # Run cron at 00:10 UTC+8
@@ -17,8 +18,8 @@ jobs:
         with:
           python-version: 3.8
       - name: execute py script # run the run.py to get the latest data
-        run: |
-          python ././main.py
         env:
           UID: ${{ secrets.UID }}
           PASSWD: ${{ secrets.PASSWD }}
+        run: |
+          python ././main.py
