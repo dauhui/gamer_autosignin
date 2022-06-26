@@ -1,0 +1,38 @@
+name: 巴哈每日簽到
+
+on:
+  workflow_dispatch: ~
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # Run cron at 00:10 UTC+8
+    - cron:  '10 16 * * *'
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check inputs
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          UID: ${{ secrets.UID }}
+          PASSWD: ${{ secrets.PASSWD }}
+        run: |
+          exit_code=0
+          if [[ -z "$UID" ]]; then
+            echo '::error::你沒有設定帳號'
+            exit_code=87
+          fi
+          if [[ -z "$PASSWD" ]]; then
+            echo '::error::你沒有設定密碼'
+            exit_code=87
+          fi
+          if [[ $exit_code -eq 87 ]]; then
+            echo '::error::請參考說明文件：https://github.com/wdzeng/bot-automation/blob/main/docs/shopee-gha-inst.md。'
+          fi
+          exit $exit_code
+      - name: Run checkin bot 
+        uses: dauhui/gamer_autosignin@main
+        with:
+          uid: ${{ secrets.UID }}
+          passwd: ${{ secrets.PASSWD }}
+          login: ${{ (github.event_name == 'schedule') && 'credential' || 'password' }}
