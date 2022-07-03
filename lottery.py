@@ -4,18 +4,14 @@ import re
 import time
 
 import httpx
-from configobj import ConfigObj
-
-
-config = ConfigObj(os.getcwd() + "/config.conf")
 
 sess = httpx.AsyncClient()
 
 
 async def _login():
     data = {
-        'uid': config['Account']['UID'],
-        'passwd': config['Account']['PASSWD'],
+        'uid': os.environ.get("UID"),
+        'passwd': os.environ.get("PASSWD"),
         'vcode': '7045'
     }
 
@@ -83,12 +79,12 @@ async def lottery(sn):
             break
         buy = {
             'ticket': '1',
-            'name': config['Lottery']['name'],
-            'tel': config['Lottery']['tel'],
-            'zip': config['Lottery']['zipcode'],
-            'city': config['Lottery']['city'],
-            'country': config['Lottery']['country'],
-            'address': config['Lottery']['address'],
+            # 'name': os.environ.get("NAME"),
+            # 'tel': os.environ.get("TEL"),
+            # 'zip': os.environ.get("ZIP"),
+            # 'city': os.environ.get("CITY"),
+            # 'country': os.environ.get("COUNTRY"),
+            # 'address': os.environ.get("ADDRESS"),
             'recordUserInfo': '1',
             'agreeConfirm': '1',
             'sn': sn,
