@@ -1,0 +1,15 @@
+name: 測試
+
+on:
+  workflow_dispatch: ~
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # Run cron at 00:10 UTC+8
+    - cron:  '*/5 * * * *'
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo hello
