@@ -100,7 +100,7 @@ def _login(data):
 
 if __name__ == "__main__":
     data = {
-        'uid': os.environ.get("UID"),
+        'uid': os.environ.get("MYUID"),
         'passwd': os.environ.get("PASSWD"),
         'vcode': '7045'
     }
