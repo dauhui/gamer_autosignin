@@ -3,6 +3,7 @@ import re
 import time
 
 import requests
+import line_notify
 
 
 def _autosign(sess):
@@ -16,9 +17,12 @@ def _autosign(sess):
         'https://www.gamer.com.tw/ajax/signin.php', data={'action': '1', 'token': token})
     jsoninfo = jsoninfo.json()
     if 'data' in jsoninfo:
-        print(f'巴哈姆特自動簽到成功!!\n已簽到第 {str(jsoninfo["data"]["days"])} 天')
+        msg = f'巴哈姆特自動簽到成功!! 已簽到第 {str(jsoninfo["data"]["days"])} 天'
+        print(msg)
+        line_notify.send_message(os.environ.get("LINE_TOKEN"), msg)
     else:
         print('簽到失敗')
+        line_notify.send_message(os.environ.get("LINE_TOKEN"), '簽到失敗')
     sess.cookies.set('ckBahamutCsrfToken',
                      token[:16], domain='.gamer.com.tw', secure=True)
     sess.post('https://api.gamer.com.tw/mobile_app/bahamut/v1/sign_in_ad_start.php',
