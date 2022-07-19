@@ -53,11 +53,11 @@ def _autoanswer(sess):
     c = sess.post(
         'https://ani.gamer.com.tw/ajax/animeAnsQuestion.php', data=data)
     jsoninfo = c.json()
-    if jsoninfo['ok'] == 1:
-        print(jsoninfo['gift'])
+    if 'error' in jsoninfo:
+        if jsoninfo['error'] == 1:
+            print('答案錯誤 or 其他錯誤')
     else:
-        print('答案錯誤')
-
+        print(jsoninfo['gift'])
 
 def _guildsign(sess):
     guildtext = sess.get(
